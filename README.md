@@ -4,9 +4,16 @@
 This application represents a demo project for Position Calculation Process SPA build on Angular 6. Frontend app is generated with Angular CLI. It uses it's own local dev server on http://localhost:4200/.
 
 # Installation
-git clone https://github.com/anteburazer/angular-architecture-patterns.git
-cd angular-architecture-patterns
+git clone https://github.com/niteshgoyal27390/NiteshGoyal_Angular-6.git
+
+cd NiteshGoyal_Angular-6
+
 npm install
+
+npm install -g json-server
+
+json-server mock-data.json
+
 npm run start
 
 # Run Development
@@ -24,19 +31,26 @@ Position Calculation process takes start of day positions and transaction files 
 
 # Input:
 Positions File: contain start positions for instruments
+
 Transactions Files: contains transactions for a day
 
 # Process:
 
 Read Positions and Transactions files, compute new positions and write to new end of day positions file.
 For each transaction in Transaction file,
+
 Apply TransactionQuantity into matching instrument records in the position file
+
 If Transaction Type =B ,
+
                                 For AccountType=E, Quantity=Quantity + TransactionQuantity
 
                                 For AccountType=I, Quantity=Quantity - TransactionQuantity
+                                
 If Transaction Type =S ,
+
                                 For AccountType=E, Quantity=Quantity - TransactionQuantity
+
                                 For AccountType=I, Quantity=Quantity + TransactionQuantity
  
 # Query:
@@ -45,5 +59,7 @@ If Transaction Type =S ,
 # Attached files:
 Input#
 1. Input_StartOfDay_Positions.txt  (csv format, comma delimited, 1st line is header line)
+
 2. Input_Transactions.txt (json format)  (use json library of your choice)
+
 Expected Output: Expected_EndOfDay_Positions.txt (Output of the process should match with this Expected output)
