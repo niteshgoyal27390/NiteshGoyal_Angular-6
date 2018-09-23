@@ -1,0 +1,85 @@
+<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">
+  <strong>Error Occurred!</strong> Selected file format is not supported
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<H1>Position Calculation Process</H1>
+
+<div *ngIf="positionCalculatorForm">
+  <form [formGroup]="positionCalculatorForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group custom-file col-md-6">
+        <input type="file" formControlName="positions" class="custom-file-input form-control-file" id="upload-positions"
+          (change)="onUploadPositions($event)" [ngClass]="{ 'is-invalid': formControls.positions.touched && formControls.positions.errors }">
+        <label class="custom-file-label" for="upload-positions">{{(formControls.positions.value) ?
+          formControls.positions.value : 'Choose Positions File'}}</label>
+        <div *ngIf="formControls.positions.touched && formControls.positions.errors" class="invalid-feedback">
+          <div *ngIf="formControls.positions.errors.required">Position file is required</div>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <button type="submit" class="btn btn-primary float-right">Get Transacion Data</button>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="positions">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3>Start of the day positions</h3>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Instrument</th>
+              <th scope="col">Account</th>
+              <th scope="col">Type</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let position of positions; let index = index">
+              <th scope="row">{{index + 1}}</th>
+              <td>{{position.instrument}}</td>
+              <td>{{position.account}}</td>
+              <td>{{position.accountType}}</td>
+              <td>{{position.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <div *ngIf="transactions">
+          <h3>Transactions of the day</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Instrument</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of transactions; let index = index">
+                <td>{{transaction.TransactionId}}</td>
+                <td>{{transaction.Instrument}}</td>
+                <td>{{transaction.TransactionType}}</td>
+                <td>{{transaction.TransactionQuantity}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-lg btn-outline-primary" type="button" (click)="calculatePosition()">Calculate Position</button>
+    </div>
+  </div>
+  <div *ngIf="!positions">
+    <strong class="text-muted">
+      No file has been uploaded for start of the day positions. Please select the file and click continue to proceed.
+    </strong>
+  </div>
+</div>
